@@ -1,0 +1,330 @@
+[
+  {
+    "id": "q01",
+    "tipo": "con_respuesta",
+    "pregunta": "¿En cuántos días hay que comunicar un siniestro al asegurador según la ley?",
+    "fuente": "ley_contrato_seguro_BOE.pdf",
+    "evidencia": [
+      "plazo máximo de siete días"
+    ],
+    "respuesta_esperada": "7 días desde que se conoce, salvo que la póliza fije un plazo más amplio (art. 16)."
+  },
+  {
+    "id": "q02",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Qué puede hacer el asegurador si el tomador no paga la primera prima por su culpa?",
+    "fuente": "ley_contrato_seguro_BOE.pdf",
+    "evidencia": [
+      "derecho a resolver el contrato o a exigir el pago"
+    ],
+    "respuesta_esperada": "Resolver el contrato o exigir el pago de la prima por vía ejecutiva (art. 15)."
+  },
+  {
+    "id": "q03",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Cuándo queda suspendida la cobertura si no se paga una de las primas siguientes?",
+    "fuente": "ley_contrato_seguro_BOE.pdf",
+    "evidencia": [
+      "suspendida un mes después del día de su vencimiento"
+    ],
+    "respuesta_esperada": "Un mes después del vencimiento de la prima (art. 15)."
+  },
+  {
+    "id": "q04",
+    "tipo": "con_respuesta",
+    "pregunta": "¿En cuánto tiempo prescriben las acciones que se derivan del contrato de seguro?",
+    "fuente": "ley_contrato_seguro_BOE.pdf",
+    "evidencia": [
+      "prescribirán en el término de dos años"
+    ],
+    "respuesta_esperada": "Dos años en seguros de daños y cinco en seguros de personas (art. 23)."
+  },
+  {
+    "id": "q05",
+    "tipo": "con_respuesta",
+    "pregunta": "¿En qué plazo debe pagar el asegurador el importe mínimo tras la declaración del siniestro?",
+    "fuente": "ley_contrato_seguro_BOE.pdf",
+    "evidencia": [
+      "dentro de los cuarenta días"
+    ],
+    "respuesta_esperada": "Dentro de los cuarenta días desde la recepción de la declaración del siniestro (art. 18)."
+  },
+  {
+    "id": "q06",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Qué interés de demora se aplica si el asegurador no paga la indemnización a tiempo?",
+    "fuente": "ley_contrato_seguro_BOE.pdf",
+    "evidencia": [
+      "incrementado en el 50 por 100"
+    ],
+    "respuesta_esperada": "El interés legal del dinero incrementado en el 50 % (art. 20)."
+  },
+  {
+    "id": "q07",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Qué debe declarar el tomador al asegurador antes de contratar?",
+    "fuente": "ley_contrato_seguro_BOE.pdf",
+    "evidencia": [
+      "el deber, antes de la conclusión del contrato"
+    ],
+    "respuesta_esperada": "Todas las circunstancias que conozca y puedan influir en la valoración del riesgo, según el cuestionario (art. 10)."
+  },
+  {
+    "id": "q08",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Cuánto tiempo tiene el asegurador para proponer cambios en el contrato cuando el riesgo ha empeorado?",
+    "fuente": "ley_contrato_seguro_BOE.pdf",
+    "evidencia": [
+      "plazo de dos meses a contar del día en que la agravación"
+    ],
+    "respuesta_esperada": "Dos meses desde que se le declara la agravación (art. 12)."
+  },
+  {
+    "id": "q09",
+    "tipo": "con_respuesta",
+    "pregunta": "¿En qué plazo puede el asegurador rescindir el contrato si el tomador ha declarado el riesgo de forma inexacta?",
+    "fuente": "ley_contrato_seguro_BOE.pdf",
+    "evidencia": [
+      "plazo de un mes, a contar del conocimiento de la reserva"
+    ],
+    "respuesta_esperada": "Un mes desde que conoce la reserva o inexactitud (art. 10)."
+  },
+  {
+    "id": "q10",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Qué representa la suma asegurada?",
+    "fuente": "ley_contrato_seguro_BOE.pdf",
+    "evidencia": [
+      "La suma asegurada representa el límite máximo"
+    ],
+    "respuesta_esperada": "El límite máximo de la indemnización a pagar por el asegurador (art. 27)."
+  },
+  {
+    "id": "q11",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Cuántos días tiene el asegurado de Caser Hogar para comunicar un siniestro?",
+    "fuente": "caser_hogar_condiciones_generales.pdf",
+    "evidencia": [
+      "máximo de 7 días desde su conocimiento"
+    ],
+    "respuesta_esperada": "Un máximo de 7 días desde que lo conoce."
+  },
+  {
+    "id": "q12",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Qué considera Caser como joyas en la póliza de hogar?",
+    "fuente": "caser_hogar_condiciones_generales.pdf",
+    "evidencia": [
+      "perlas o piedras preciosas"
+    ],
+    "respuesta_esperada": "Objetos con metales preciosos, perlas o piedras preciosas con fin de ornato personal."
+  },
+  {
+    "id": "q13",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Cuándo cubre Caser el robo de joyas en una vivienda secundaria?",
+    "fuente": "caser_hogar_condiciones_generales.pdf",
+    "evidencia": [
+      "capital específico para Joyas en Caja Fuerte"
+    ],
+    "respuesta_esperada": "Cuando la vivienda es de uso secundario y está cubierta la garantía de robo en la vivienda habitual (según el texto de la póliza)."
+  },
+  {
+    "id": "q14",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Hay teléfono de asistencia en el hogar de Caser las 24 horas?",
+    "fuente": "caser_hogar_condiciones_generales.pdf",
+    "evidencia": [
+      "las 24 horas del día, los 365 días del año"
+    ],
+    "respuesta_esperada": "Sí, 24 horas al día, los 365 días del año."
+  },
+  {
+    "id": "q15",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Hasta cuánto cubre Caser el incendio, rayo y explosión?",
+    "fuente": "caser_hogar_condiciones_generales.pdf",
+    "evidencia": [
+      "Incendio, rayo y explosión Hasta el 100"
+    ],
+    "respuesta_esperada": "Hasta el 100 % de la suma asegurada."
+  },
+  {
+    "id": "q16",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Cuánto tiempo tengo para desistir del seguro de hogar Naranja?",
+    "fuente": "ing_naranja_hogar_condiciones_generales.pdf",
+    "evidencia": [
+      "En los 30 primeros días desde la contratación"
+    ],
+    "respuesta_esperada": "30 días desde la contratación, con devolución de la prima si no ha habido siniestro."
+  },
+  {
+    "id": "q17",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Devuelve ING la prima si el contrato se extingue antes de su vencimiento?",
+    "fuente": "ing_naranja_hogar_condiciones_generales.pdf",
+    "evidencia": [
+      "La Prima es indivisible"
+    ],
+    "respuesta_esperada": "No: la prima es indivisible y se paga entera la anualidad."
+  },
+  {
+    "id": "q18",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Qué es la regla de equidad en el seguro de hogar de ING?",
+    "fuente": "ing_naranja_hogar_condiciones_generales.pdf",
+    "evidencia": [
+      "Regla de equidad: Se aplica cuando"
+    ],
+    "respuesta_esperada": "Se aplica cuando, al producirse el siniestro, se evidencia una agravación del riesgo que, de haber sido conocida por la compañía, habría supuesto un aumento del precio del seguro (definición de ING)."
+  },
+  {
+    "id": "q19",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Qué es la franquicia?",
+    "fuente": "ing_naranja_hogar_condiciones_generales.pdf",
+    "evidencia": [
+      "Franquicia: En caso de Siniestro indemnizable"
+    ],
+    "respuesta_esperada": "La cantidad del daño que asume el tomador o asegurado en un siniestro indemnizable."
+  },
+  {
+    "id": "q20",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Cuál es el límite para joyas en una vivienda no habitual en ING Naranja?",
+    "fuente": "ing_naranja_hogar_condiciones_generales.pdf",
+    "evidencia": [
+      "limitados en su conjunto a 600€"
+    ],
+    "respuesta_esperada": "600 € en conjunto para joyas y objetos de oro y plata."
+  },
+  {
+    "id": "q21",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Hasta qué importe cubre la responsabilidad civil el seguro Naranja?",
+    "fuente": "ing_naranja_hogar_condiciones_generales.pdf",
+    "evidencia": [
+      "Responsabilidad civil Hasta 100.000€"
+    ],
+    "respuesta_esperada": "100.000 €, 200.000 € o 300.000 € según la modalidad."
+  },
+  {
+    "id": "q22",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Qué significa valor a nuevo?",
+    "fuente": "ing_naranja_hogar_condiciones_generales.pdf",
+    "evidencia": [
+      "Valor a nuevo: Valor de reemplazo"
+    ],
+    "respuesta_esperada": "El valor de reemplazo del bien siniestrado por otro similar sin depreciación por antigüedad o uso."
+  },
+  {
+    "id": "q23",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Qué es un periodo de carencia en el seguro de salud?",
+    "fuente": "asisa_salud_condiciones_generales_2017.pdf",
+    "evidencia": [
+      "Periodo de Carencia: Periodo de tiempo durante el cual"
+    ],
+    "respuesta_esperada": "Tiempo durante el cual no se cubren algunas prestaciones, contado desde la fecha de efecto de la póliza."
+  },
+  {
+    "id": "q24",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Qué documentos hay que presentar para el reembolso de gastos médicos?",
+    "fuente": "asisa_salud_condiciones_generales_2017.pdf",
+    "evidencia": [
+      "acompañada del informe médico completo"
+    ],
+    "respuesta_esperada": "La factura original acompañada del informe médico completo con antecedentes, diagnóstico y tratamiento."
+  },
+  {
+    "id": "q25",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Qué excluye ASISA en relación con los conflictos armados?",
+    "fuente": "asisa_salud_condiciones_generales_2017.pdf",
+    "evidencia": [
+      "conflictos armados"
+    ],
+    "respuesta_esperada": "Quedan excluidas las prestaciones por hechos derivados de conflictos armados."
+  },
+  {
+    "id": "q26",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Cuándo vuelve a tener efecto la cobertura si el tomador paga la prima atrasada?",
+    "fuente": "asisa_salud_condiciones_generales_2017.pdf",
+    "evidencia": [
+      "vuelve a tener efecto a las veinticuatro horas"
+    ],
+    "respuesta_esperada": "A las veinticuatro horas del día en que el tomador pague la prima."
+  },
+  {
+    "id": "q27",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Qué es el cuestionario de salud?",
+    "fuente": "asisa_salud_condiciones_generales_2017.pdf",
+    "evidencia": [
+      "Cuestionario de Salud: Declaración realizada por el tomador"
+    ],
+    "respuesta_esperada": "Declaración del tomador o asegurado antes de formalizar la póliza, que sirve al asegurador para valorar el riesgo."
+  },
+  {
+    "id": "q28",
+    "tipo": "con_respuesta",
+    "pregunta": "¿Las primas del seguro ASISA son anuales o se pueden fraccionar?",
+    "fuente": "asisa_salud_condiciones_generales_2017.pdf",
+    "evidencia": [
+      "son anuales, pudiendo pactarse el pago fraccionado"
+    ],
+    "respuesta_esperada": "Son anuales, aunque puede pactarse el pago fraccionado."
+  },
+  {
+    "id": "s01",
+    "tipo": "sin_respuesta",
+    "pregunta": "¿Cuánto cuesta al mes el seguro de salud de ASISA?",
+    "fuente": null,
+    "evidencia": [],
+    "respuesta_esperada": null
+  },
+  {
+    "id": "s02",
+    "tipo": "sin_respuesta",
+    "pregunta": "¿Cuál es la edad máxima para contratar el seguro de salud de ASISA?",
+    "fuente": null,
+    "evidencia": [],
+    "respuesta_esperada": null
+  },
+  {
+    "id": "s03",
+    "tipo": "sin_respuesta",
+    "pregunta": "¿Cubre el seguro de hogar los daños causados por un meteorito?",
+    "fuente": null,
+    "evidencia": [],
+    "respuesta_esperada": null
+  },
+  {
+    "id": "s04",
+    "tipo": "sin_respuesta",
+    "pregunta": "¿Cuál es la capital de Francia?",
+    "fuente": null,
+    "evidencia": [],
+    "respuesta_esperada": null
+  },
+  {
+    "id": "s05",
+    "tipo": "sin_respuesta",
+    "pregunta": "¿Cuántos clientes tiene ING en España?",
+    "fuente": null,
+    "evidencia": [],
+    "respuesta_esperada": null
+  },
+  {
+    "id": "s06",
+    "tipo": "sin_respuesta",
+    "pregunta": "¿Cuál es el precio medio por metro cuadrado de una vivienda en Barcelona?",
+    "fuente": null,
+    "evidencia": [],
+    "respuesta_esperada": null
+  }
+]
