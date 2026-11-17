@@ -14,6 +14,8 @@ carpeta_indice: indice          # aqui se guardan los vectores ya calculados
 proveedor_embeddings: gemini
 modelo_embeddings: gemini-embedding-001
 modelo_embeddings_local: intfloat/multilingual-e5-base
+# Version exacta del modelo (commit en Hugging Face): mismos vectores siempre
+revision_modelo_local: d128750597153bb5987e10b1c3493a34e5a4502a
 
 modelo_generacion: gemini-flash-lite-latest
 

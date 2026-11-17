@@ -61,19 +61,19 @@ def embeber(textos, modelo, tarea="RETRIEVAL_DOCUMENT"):
 _modelos_locales = {}
 
 
-def embeber_local(textos, modelo, tarea="RETRIEVAL_DOCUMENT"):
+def embeber_local(textos, modelo, tarea="RETRIEVAL_DOCUMENT", revision=None):
     """Embeddings con un modelo que se ejecuta en tu ordenador.
 
     Requiere `pip install sentence-transformers`. Los modelos de la familia E5
     esperan un prefijo distinto para preguntas y para documentos.
     """
     from sentence_transformers import SentenceTransformer
-    if modelo not in _modelos_locales:
-        _modelos_locales[modelo] = SentenceTransformer(modelo)
+    if (modelo, revision) not in _modelos_locales:
+        _modelos_locales[(modelo, revision)] = SentenceTransformer(modelo, revision=revision)
     prefijo = "query: " if tarea == "RETRIEVAL_QUERY" else "passage: "
     if "e5" not in modelo.lower():
         prefijo = ""
-    vectores = _modelos_locales[modelo].encode(
+    vectores = _modelos_locales[(modelo, revision)].encode(
         [prefijo + t for t in textos], batch_size=32, show_progress_bar=len(textos) > 50)
     return normalizar(vectores)
 
@@ -86,7 +86,8 @@ def crear_embedder(config):
         return lambda textos, tarea: embeber(textos, modelo, tarea)
     if proveedor == "local":
         modelo = config["modelo_embeddings_local"]
-        return lambda textos, tarea: embeber_local(textos, modelo, tarea)
+        revision = config.get("revision_modelo_local")  # version exacta del modelo
+        return lambda textos, tarea: embeber_local(textos, modelo, tarea, revision)
     raise ValueError(f"Proveedor de embeddings desconocido: {proveedor!r} (usa 'gemini' o 'local')")
 
 
