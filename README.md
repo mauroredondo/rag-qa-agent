@@ -1,4 +1,4 @@
-# agente-documentos
+# rag-qa-agent
 
 Question-answering over a set of documents (RAG), built to be reusable: the code knows nothing about the domain. Everything that changes between domains lives in `config.yaml` and the `documentos/` folder. The first demo domain is **insurance** (policy terms and the Spanish insurance contract law).
 
