@@ -35,11 +35,8 @@ def _buscar_corte(texto, inicio, fin):
     return fin
 
 
-def trocear_pagina(texto, tamano, solapamiento):
-    """Devuelve la lista de fragmentos de un texto."""
-    if solapamiento >= tamano:
-        raise ValueError("El solapamiento debe ser menor que el tamano del trozo")
-    texto = _normalizar(texto)
+def _ventana(texto, tamano, solapamiento):
+    """Ventana deslizante: trozos de `tamano` caracteres que se solapan."""
     trozos, inicio = [], 0
     while inicio < len(texto):
         fin = _buscar_corte(texto, inicio, inicio + tamano)
@@ -52,10 +49,36 @@ def trocear_pagina(texto, tamano, solapamiento):
     return trozos
 
 
-def trocear_documentos(paginas: list[Pagina], tamano, solapamiento):
+def trocear_pagina(texto, tamano, solapamiento, separador=None, minimo=200):
+    """Devuelve la lista de fragmentos de un texto.
+
+    separador: expresion regular opcional que marca el INICIO de una seccion
+    (por ejemplo 'Articulo quince.'). Si se da, se corta primero por secciones,
+    para que un fragmento no mezcle el final de un articulo con el principio del
+    siguiente; las secciones muy cortas (< minimo) se unen a la siguiente y las
+    muy largas se parten con la ventana deslizante.
+    """
+    if solapamiento >= tamano:
+        raise ValueError("El solapamiento debe ser menor que el tamano del trozo")
+    texto = _normalizar(texto)
+    if not separador:
+        return _ventana(texto, tamano, solapamiento)
+    secciones = [s for s in re.split(f"(?={separador})", texto) if s.strip()]
+    trozos, buffer = [], ""
+    for seccion in secciones + [None]:
+        if seccion is not None and len(buffer) < minimo and len(buffer) + len(seccion) <= tamano:
+            buffer += seccion  # seccion corta: se une para no perder contexto
+            continue
+        if buffer.strip():
+            trozos += _ventana(buffer.strip(), tamano, solapamiento)
+        buffer = seccion or ""
+    return trozos
+
+
+def trocear_documentos(paginas: list[Pagina], tamano, solapamiento, separador=None):
     """Trocea todas las paginas y numera los fragmentos."""
     resultado = []
     for pag in paginas:
-        for texto in trocear_pagina(pag.texto, tamano, solapamiento):
+        for texto in trocear_pagina(pag.texto, tamano, solapamiento, separador):
             resultado.append(Trozo(len(resultado), pag.fuente, pag.pagina, texto))
     return resultado
