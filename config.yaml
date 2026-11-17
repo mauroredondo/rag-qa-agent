@@ -11,7 +11,7 @@ carpeta_indice: indice          # aqui se guardan los vectores ya calculados
 
 # Embeddings: 'gemini' (API) o 'local' (se ejecuta en tu ordenador; los documentos
 # no salen de el. Requiere: pip install sentence-transformers)
-proveedor_embeddings: gemini
+proveedor_embeddings: local
 modelo_embeddings: gemini-embedding-001
 modelo_embeddings_local: intfloat/multilingual-e5-base
 # Version exacta del modelo (commit en Hugging Face): mismos vectores siempre
