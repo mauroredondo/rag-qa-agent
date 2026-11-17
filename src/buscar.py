@@ -28,14 +28,17 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("pregunta", nargs="?")
     parser.add_argument("--reconstruir", action="store_true")
+    parser.add_argument("--completo", action="store_true", help="mostrar el fragmento entero")
     args = parser.parse_args()
     config = cargar_config()
     indice = obtener_indice(config, args.reconstruir)
     if not args.pregunta:
         return
-    for trozo, sim in indice.buscar(args.pregunta, config["k"]):
-        print(f"\n[{sim:.3f}] {trozo.fuente}, pag. {trozo.pagina}")
-        print(trozo.texto[:400] + ("..." if len(trozo.texto) > 400 else ""))
+    modo = config.get("modo_busqueda", "denso")
+    for trozo, puntos in indice.buscar(args.pregunta, config["k"], modo):
+        print(f"\n[{puntos:.3f}] {trozo.fuente}, pag. {trozo.pagina}")
+        corte = None if args.completo else 400
+        print(trozo.texto[:corte] + ("..." if corte and len(trozo.texto) > corte else ""))
 
 
 if __name__ == "__main__":

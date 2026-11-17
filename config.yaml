@@ -25,3 +25,15 @@ solapamiento: 150
 
 # Cuantos fragmentos se recuperan por pregunta
 k: 5
+
+# Busqueda: 'denso' (embeddings), 'bm25' (palabras clave) o 'hibrido' (los dos).
+# El hibrido fue el mejor en la evaluacion (ver evaluacion/RESULTADOS.md).
+modo_busqueda: hibrido
+
+# Antepone el nombre del documento al texto de cada fragmento al indexarlo.
+prefijo_fuente: true
+
+# Opcional: regex que marca el inicio de una seccion para no mezclar articulos en
+# un mismo fragmento. Depende del tipo de documento, por eso no va activado.
+# Ejemplo para leyes: separador_estructura: 'Art[ií]culo [a-záéíóú]+\. '
+# separador_estructura:
