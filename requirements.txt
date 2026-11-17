@@ -4,3 +4,4 @@ numpy
 pypdf
 pyyaml
 pytest
+langgraph
