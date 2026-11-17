@@ -1,0 +1,25 @@
+# Todo lo que cambia de un dominio a otro vive aqui, no en el codigo.
+# Para pasar de seguros a otra cosa: cambia los PDFs de `documentos/`,
+# este archivo y las preguntas de `evaluacion/`.
+
+dominio: seguros
+descripcion: >
+  Condiciones generales de polizas de seguro y normativa del contrato de seguro.
+
+carpeta_documentos: documentos
+carpeta_indice: indice          # aqui se guardan los vectores ya calculados
+
+# Embeddings: 'gemini' (API) o 'local' (se ejecuta en tu ordenador; los documentos
+# no salen de el. Requiere: pip install sentence-transformers)
+proveedor_embeddings: gemini
+modelo_embeddings: gemini-embedding-001
+modelo_embeddings_local: intfloat/multilingual-e5-base
+
+modelo_generacion: gemini-flash-lite-latest
+
+# Troceado (en caracteres)
+tamano_trozo: 900
+solapamiento: 150
+
+# Cuantos fragmentos se recuperan por pregunta
+k: 5
