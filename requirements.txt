@@ -5,3 +5,6 @@ pypdf
 pyyaml
 pytest
 langgraph
+mcp
+fastapi
+uvicorn
