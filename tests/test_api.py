@@ -93,3 +93,18 @@ def test_preguntar_sin_agente_da_503():
 def test_la_documentacion_se_genera_sola():
     esquema = _cliente().get("/openapi.json").json()
     assert {"/salud", "/documentos", "/buscar", "/preguntar"} <= set(esquema["paths"])
+
+
+def test_la_pagina_web_se_sirve_en_la_raiz():
+    r = _cliente().get("/")
+    assert r.status_code == 200
+    assert r.headers["content-type"].startswith("text/html")
+    assert 'id="formulario"' in r.text and "/salud" in r.text
+    # la interfaz no forma parte de la API documentada
+    assert "/" not in _cliente().get("/openapi.json").json()["paths"]
+
+
+def test_la_pagina_no_mete_texto_del_servidor_como_html():
+    # defensa contra inyeccion: el texto de documentos y respuestas se pinta con textContent
+    html = _cliente().get("/").text
+    assert "innerHTML" not in html

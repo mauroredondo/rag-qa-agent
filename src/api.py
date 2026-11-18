@@ -4,6 +4,7 @@ Cualquier programa que sepa hacer peticiones HTTP (una web, una app, otro
 servicio, curl) puede usarlo, sin saber Python.
 
 Endpoints:
+    GET  /             pagina web para preguntar (interfaz)
     GET  /salud        estado del servicio
     GET  /documentos   documentos indexados
     POST /buscar       fragmentos relevantes (sin LLM)
@@ -15,15 +16,18 @@ Uso:
     python -m src.api
 """
 from collections import Counter
+from pathlib import Path
 from typing import Literal
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
 from .agente import preguntar
 
 MAX_PREGUNTA = 1000
 MAX_K = 10
+PAGINA = Path(__file__).parent / "web" / "index.html"
 
 
 # --- Formatos de entrada y salida ---------------------------------------------
@@ -86,6 +90,13 @@ def crear_app(indice, config, agente=None):
         if not pregunta:
             raise HTTPException(status_code=422, detail="La pregunta no puede estar vacía.")
         return pregunta
+
+    pagina = PAGINA.read_text(encoding="utf-8")
+
+    @app.get("/", response_class=HTMLResponse, include_in_schema=False)
+    def inicio():
+        """La interfaz: una pagina que llama a /preguntar y /buscar desde el navegador."""
+        return pagina
 
     @app.get("/salud", response_model=Salud)
     def salud():

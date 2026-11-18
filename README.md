@@ -2,7 +2,7 @@
 
 Question-answering over a set of documents (RAG), built to be reusable: the code knows nothing about the domain. Everything that changes between domains lives in `config.yaml` and the `documentos/` folder. The first demo domain is **insurance** (policy terms and the Spanish insurance contract law).
 
-> Work in progress. Done: document loading, chunking, local embeddings, hybrid search (embeddings + BM25), retrieval evaluation and a LangGraph agent with verified citations, an MCP server and an HTTP API (FastAPI).
+> Work in progress. Done: document loading, chunking, local embeddings, hybrid search (embeddings + BM25), retrieval evaluation and a LangGraph agent with verified citations, an MCP server, an HTTP API (FastAPI) and a small web page to use it.
 
 ## How it works
 
@@ -94,6 +94,14 @@ and for Claude Desktop (`claude_desktop_config.json`):
 
 Design notes: every tool is annotated read-only; questions are limited to 1,000 characters and `k` to 10; invalid input returns a clear tool error instead of a crash; the transport is stdio, so nothing may be printed to stdout (startup output is redirected to stderr); the text returned is data from the documents, and the server instructions say so.
 
+## Web page
+
+```bash
+python -m src.api
+```
+
+Then open <http://127.0.0.1:8000>. A single page (`src/web/index.html`, plain HTML and JavaScript, no framework or build step) served by the same API: type a question and get the answer with the quote highlighted and its document and page, or a clear "not found" when the documents do not contain it. A second mode shows the raw fragments the search finds. It works on a phone-sized screen and in dark mode. Text coming from the server is always inserted with `textContent`, never as HTML, so a document cannot inject code into the page.
+
 ## HTTP API
 
 The same search and agent as a web service, for any program that can make HTTP requests (a web page, an app, another service):
@@ -156,6 +164,8 @@ Each step below was a decision made after measuring or hitting a real problem, n
 
 | 10. HTTP API | MCP serves AI clients; ordinary programs need plain HTTP. | A FastAPI service with four endpoints that reuses the same index and agent (injected, like the MCP server). Tested with FastAPI's test client and then against the running server with `curl`. |
 
+| 11. Web page | The API's automatic `/docs` page is meant for developers, not for someone who just wants to ask a question. | A one-page interface on top of the API, with no new dependencies. Checked in a real browser: a verified answer, a refusal, search-only mode and a phone-sized screen. |
+
 ### What is still open
 
 - The evaluation questions were written by the author and the search was tuned while looking at them, so the figures are optimistic. A second, untouched question set written by someone else is needed.
@@ -175,4 +185,4 @@ Each step below was a decision made after measuring or hitting a real problem, n
 python -m pytest
 ```
 
-50 tests. They use a fake embedder, a fake LLM, an in-memory MCP client and FastAPI's test client, so they need neither an API key nor a model download.
+52 tests. They use a fake embedder, a fake LLM, an in-memory MCP client and FastAPI's test client, so they need neither an API key nor a model download.

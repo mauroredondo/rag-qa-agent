@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pregunta a tus documentos</title>
+<style>
+  :root {
+    --fondo: #f7f7f5; --superficie: #ffffff; --texto: #1d1d1b; --suave: #5f5e5a;
+    --borde: #dcdad3; --acento: #185fa5; --acento-fondo: #e6f1fb;
+    --ok-fondo: #eaf3de; --ok-texto: #27500a; --aviso-fondo: #faeeda; --aviso-texto: #633806;
+    --error-fondo: #fcebeb; --error-texto: #791f1f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fondo: #1b1b1a; --superficie: #262624; --texto: #ecebe6; --suave: #b4b2a9;
+      --borde: #444441; --acento: #85b7eb; --acento-fondo: #0c2a48;
+      --ok-fondo: #1f3510; --ok-texto: #c0dd97; --aviso-fondo: #3d2a08; --aviso-texto: #fac775;
+      --error-fondo: #3d1515; --error-texto: #f7c1c1;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--texto);
+         font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 24px; font-weight: 600; margin: 0 0 4px; }
+  .sub { color: var(--suave); margin: 0 0 24px; font-size: 14px; }
+  form { background: var(--superficie); border: 1px solid var(--borde); border-radius: 12px; padding: 16px; }
+  textarea { width: 100%; min-height: 84px; resize: vertical; padding: 10px 12px; font: inherit;
+             color: var(--texto); background: var(--fondo); border: 1px solid var(--borde); border-radius: 8px; }
+  textarea:focus { outline: 2px solid var(--acento); outline-offset: 1px; }
+  .fila { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-top: 12px; }
+  .modo { display: flex; gap: 16px; font-size: 14px; color: var(--suave); }
+  .modo label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+  button { font: inherit; font-weight: 600; padding: 9px 18px; border-radius: 8px; border: 0;
+           background: var(--acento); color: var(--superficie); cursor: pointer; }
+  button:disabled { opacity: .55; cursor: wait; }
+  .ejemplos { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; }
+  .ejemplos button { font-weight: 400; font-size: 13px; padding: 5px 10px; background: var(--acento-fondo); color: var(--acento); }
+  #resultado { margin-top: 24px; }
+  .tarjeta { background: var(--superficie); border: 1px solid var(--borde); border-radius: 12px; padding: 18px; margin-bottom: 12px; }
+  .etiqueta { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; margin-bottom: 10px; }
+  .ok { background: var(--ok-fondo); color: var(--ok-texto); }
+  .aviso { background: var(--aviso-fondo); color: var(--aviso-texto); }
+  .error { background: var(--error-fondo); color: var(--error-texto); }
+  .respuesta { font-size: 18px; margin: 0 0 14px; }
+  blockquote { margin: 0 0 14px; padding: 10px 14px; border-left: 3px solid var(--acento);
+               background: var(--acento-fondo); border-radius: 0 8px 8px 0; font-style: italic; }
+  .fuentes { font-size: 14px; color: var(--suave); margin: 0; padding-left: 18px; }
+  .meta { font-size: 13px; color: var(--suave); margin-bottom: 6px; }
+  .fragmento { font-size: 14px; margin: 0; }
+  .estado { font-size: 13px; color: var(--suave); margin-top: 24px; }
+  .nota { font-size: 13px; color: var(--suave); margin: 10px 0 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Pregunta a tus documentos</h1>
+  <p class="sub" id="dominio">Respuestas sacadas solo de los documentos, con la cita exacta que las respalda.</p>
+
+  <form id="formulario">
+    <label for="pregunta" class="meta">Tu pregunta</label>
+    <textarea id="pregunta" maxlength="1000" required
+              placeholder="Por ejemplo: ¿Cuántos días tengo para desistir del seguro de ING?"></textarea>
+    <div class="fila">
+      <div class="modo" role="radiogroup" aria-label="Modo">
+        <label><input type="radio" name="modo" value="preguntar" checked> Responder con cita</label>
+        <label><input type="radio" name="modo" value="buscar"> Solo buscar fragmentos</label>
+      </div>
+      <button type="submit" id="enviar">Preguntar</button>
+    </div>
+    <div class="ejemplos" aria-label="Preguntas de ejemplo">
+      <button type="button">¿Cuántos días tengo para desistir del seguro de ING?</button>
+      <button type="button">¿En cuánto tiempo prescriben las acciones del contrato de seguro?</button>
+      <button type="button">¿Cuál es la capital de Francia?</button>
+    </div>
+  </form>
+
+  <section id="resultado" aria-live="polite"></section>
+  <p class="estado" id="estado">Conectando con el servicio…</p>
+</main>
+
+<script>
+// Todo el texto que viene del servidor se pone con textContent, nunca como HTML:
+// asi un documento o una respuesta no pueden inyectar codigo en la pagina.
+const $ = (id) => document.getElementById(id);
+const resultado = $("resultado");
+
+function crear(etiqueta, clase, texto) {
+  const el = document.createElement(etiqueta);
+  if (clase) el.className = clase;
+  if (texto !== undefined) el.textContent = texto;
+  return el;
+}
+
+function mostrar(...nodos) { resultado.replaceChildren(...nodos); }
+
+function tarjetaError(mensaje) {
+  const t = crear("div", "tarjeta");
+  t.append(crear("span", "etiqueta error", "Error"), crear("p", "fragmento", mensaje));
+  return t;
+}
+
+function pintarRespuesta(r) {
+  const t = crear("div", "tarjeta");
+  if (r.estado === "respondida") {
+    t.append(crear("span", "etiqueta ok", "Respuesta verificada"), crear("p", "respuesta", r.respuesta));
+    if (r.cita_textual) t.append(crear("blockquote", "", "«" + r.cita_textual + "»"));
+    const lista = crear("ul", "fuentes");
+    for (const f of r.fuentes) lista.append(crear("li", "", `${f.fuente}, página ${f.pagina}`));
+    t.append(lista);
+  } else {
+    t.append(crear("span", "etiqueta aviso", "Sin respuesta"), crear("p", "respuesta", r.respuesta));
+    t.append(crear("p", "nota", r.motivo === "cita_no_verificable"
+      ? "El modelo propuso una respuesta, pero su cita no aparecía en los documentos, así que se descartó."
+      : "Los documentos no contienen esta información. El sistema prefiere no responder a inventar."));
+  }
+  mostrar(t);
+}
+
+function pintarFragmentos(lista) {
+  if (!lista.length) return mostrar(tarjetaError("No se ha encontrado ningún fragmento."));
+  mostrar(...lista.map((f, i) => {
+    const t = crear("div", "tarjeta");
+    t.append(crear("div", "meta", `${i + 1}. ${f.fuente}, página ${f.pagina}`), crear("p", "fragmento", f.texto));
+    return t;
+  }));
+}
+
+async function enviar(evento) {
+  evento.preventDefault();
+  const pregunta = $("pregunta").value.trim();
+  if (!pregunta) { mostrar(tarjetaError("Escribe una pregunta primero.")); $("pregunta").focus(); return; }
+  const modo = document.querySelector('input[name="modo"]:checked').value;
+  const boton = $("enviar");
+  boton.disabled = true;
+  boton.textContent = modo === "preguntar" ? "Pensando…" : "Buscando…";
+  mostrar(crear("p", "meta", modo === "preguntar"
+    ? "Buscando en los documentos y verificando la cita. Puede tardar unos segundos."
+    : "Buscando en los documentos…"));
+  try {
+    const cuerpo = modo === "preguntar" ? { pregunta } : { pregunta, k: 5 };
+    const resp = await fetch("/" + modo, {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(cuerpo),
+    });
+    const datos = await resp.json().catch(() => ({}));
+    if (!resp.ok) {
+      const detalle = typeof datos.detail === "string" ? datos.detail : "La pregunta no es válida.";
+      return mostrar(tarjetaError(`${detalle} (HTTP ${resp.status})`));
+    }
+    modo === "preguntar" ? pintarRespuesta(datos) : pintarFragmentos(datos);
+  } catch {
+    mostrar(tarjetaError("No se ha podido conectar con el servicio. ¿Está arrancado python -m src.api?"));
+  } finally {
+    boton.disabled = false;
+    boton.textContent = "Preguntar";
+  }
+}
+
+$("formulario").addEventListener("submit", enviar);
+for (const b of document.querySelectorAll(".ejemplos button")) {
+  b.addEventListener("click", () => { $("pregunta").value = b.textContent; $("enviar").click(); });
+}
+$("pregunta").addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) $("enviar").click();
+});
+
+fetch("/salud").then((r) => r.json()).then((s) => {
+  $("estado").textContent = `${s.documentos} documentos · ${s.fragmentos} fragmentos indexados` +
+    (s.agente_disponible ? "" : " · agente no disponible (falta GEMINI_API_KEY): usa «Solo buscar»");
+  if (!s.agente_disponible) document.querySelector('input[value="buscar"]').checked = true;
+}).catch(() => { $("estado").textContent = "No se ha podido conectar con el servicio."; });
+</script>
+</body>
+</html>
