@@ -1,4 +1,3 @@
-import pytest
 
 from src.evaluacion import auc, cargar_preguntas, es_acierto, intervalo_wilson
 from src.troceado import Trozo, trocear_pagina

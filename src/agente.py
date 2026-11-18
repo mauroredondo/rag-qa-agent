@@ -29,7 +29,7 @@ MENSAJE_RECHAZO = "No he encontrado esa información en los documentos."
 MAX_INTENTOS = 2
 
 
-class Estado(TypedDict, total=False):
+class Estado(TypedDict):
     pregunta: str
     fragmentos: list          # [(Trozo, puntuacion)] recuperados
     borrador: Respuesta       # lo ultimo que dijo el modelo
@@ -74,24 +74,27 @@ PREGUNTA: {pregunta}
 
 
 def construir_agente(indice, llm, config):
-    """Monta y devuelve el grafo ya compilado. `llm(prompt) -> Respuesta`."""
+    """Monta y devuelve el grafo ya compilado. `llm(prompt) -> Respuesta`.
+
+    Cada nodo recibe el estado en un parametro llamado `state` (asi lo declara
+    LangGraph) y devuelve solo las claves del estado que cambia."""
     k = config.get("k", 5)
     modo = config.get("modo_busqueda", "denso")
 
-    def buscar(estado):
-        return {"fragmentos": indice.buscar(estado["pregunta"], k, modo),
+    def buscar(state: Estado):
+        return {"fragmentos": indice.buscar(state["pregunta"], k, modo),
                 "intentos": 0, "aviso": ""}
 
-    def responder(estado):
-        prompt = construir_prompt(estado["pregunta"], estado["fragmentos"], config,
-                                  estado.get("aviso", ""))
-        return {"borrador": llm(prompt), "intentos": estado["intentos"] + 1}
+    def responder(state: Estado):
+        prompt = construir_prompt(state["pregunta"], state["fragmentos"], config,
+                                  state.get("aviso", ""))
+        return {"borrador": llm(prompt), "intentos": state["intentos"] + 1}
 
-    def tras_responder(estado):
-        return "verificar" if estado["borrador"].responde else "rechazar_sin_info"
+    def tras_responder(state: Estado):
+        return "verificar" if state["borrador"].responde else "rechazar_sin_info"
 
-    def verificar(estado):
-        b, fragmentos = estado["borrador"], estado["fragmentos"]
+    def verificar(state: Estado):
+        b, fragmentos = state["borrador"], state["fragmentos"]
         validas = [n for n in b.citas if 1 <= n <= len(fragmentos)]
         if not validas:
             return {"aviso": "No citaste ningún fragmento válido; usa los números entre corchetes."}
@@ -101,13 +104,13 @@ def construir_agente(indice, llm, config):
                              "Copia una frase exacta o responde=false si no hay respaldo."}
         return {"aviso": ""}
 
-    def tras_verificar(estado):
-        if not estado["aviso"]:
+    def tras_verificar(state: Estado):
+        if not state["aviso"]:
             return "finalizar"
-        return "responder" if estado["intentos"] < MAX_INTENTOS else "rechazar_sin_cita"
+        return "responder" if state["intentos"] < MAX_INTENTOS else "rechazar_sin_cita"
 
-    def finalizar(estado):
-        b, fragmentos = estado["borrador"], estado["fragmentos"]
+    def finalizar(state: Estado):
+        b, fragmentos = state["borrador"], state["fragmentos"]
         usados = [n for n in b.citas if 1 <= n <= len(fragmentos)]
         return {"resultado": {
             "estado": "respondida", "respuesta": b.respuesta, "cita_textual": b.cita_textual,
@@ -116,10 +119,10 @@ def construir_agente(indice, llm, config):
             "recuperados": [t.id for t, _ in fragmentos]}}
 
     def rechazar(motivo):
-        def nodo(estado):
+        def nodo(state: Estado):
             return {"resultado": {
                 "estado": "rechazada", "motivo": motivo, "respuesta": MENSAJE_RECHAZO,
-                "fuentes": [], "recuperados": [t.id for t, _ in estado["fragmentos"]]}}
+                "fuentes": [], "recuperados": [t.id for t, _ in state["fragmentos"]]}}
         return nodo
 
     g = StateGraph(Estado)

@@ -4,7 +4,6 @@
     python -m src.buscar "¿Que cubre el seguro de hogar en caso de robo?"
 """
 import argparse
-from pathlib import Path
 
 from .config import RAIZ, cargar_config
 from .embeddings import crear_embedder

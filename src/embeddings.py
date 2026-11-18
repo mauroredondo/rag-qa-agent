@@ -37,6 +37,7 @@ def embeber(textos, modelo, tarea="RETRIEVAL_DOCUMENT"):
     vectores = []
     for i in range(0, len(textos), LOTE):
         lote = textos[i:i + LOTE]
+        resp = None
         for intento in range(6):
             try:
                 resp = cliente.models.embed_content(
@@ -49,6 +50,8 @@ def embeber(textos, modelo, tarea="RETRIEVAL_DOCUMENT"):
                 if e.code != 429 or intento == 5:
                     raise
                 time.sleep(65)  # el plan gratuito limita las peticiones por minuto
+        if resp is None or not resp.embeddings:
+            raise RuntimeError("Gemini no ha devuelto embeddings para este lote")
         vectores += [e.values for e in resp.embeddings]
         if len(textos) > LOTE:
             print(f"  embeddings: {min(i + LOTE, len(textos))}/{len(textos)}", flush=True)
